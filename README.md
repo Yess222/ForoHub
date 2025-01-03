@@ -31,6 +31,7 @@ Al final de nuestro desarrollo tendremos una API REST con las siguientes funcion
 - Spring Framework
 - Base de datos (puedes especificar la base de datos usada, por ejemplo, MySQL, PostgreSQL, etc.)
 - Herramientas de autenticación/autorización (Spring Security)
+- HTML, Bootstrap, CSS y JavaScritp
 
 ## Carpeta FrontEnd-Foro
 En esta carpeta se puede incluir un diseño básico utilizando Bootstrap, lo que permitirá probar el código con una interfaz visual para que el usuario pueda interactuar con la aplicación.
