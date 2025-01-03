@@ -1,16 +1,21 @@
 package com.forohub.api.forohub.domain.respuesta;
 
 import com.forohub.api.forohub.domain.ValidacionException;
+import com.forohub.api.forohub.domain.topico.DatosListadoTopico;
 import com.forohub.api.forohub.domain.topico.Topico;
 import com.forohub.api.forohub.domain.topico.TopicoRepository;
 import com.forohub.api.forohub.domain.usuario.Usuario;
 import com.forohub.api.forohub.domain.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class RespuestaService {
@@ -22,8 +27,8 @@ public class RespuestaService {
     @Autowired
     private TopicoRepository topicoRepository;
 
-    public Respuesta crearRespuesta(DatosRegistrarRespuesta datosRegistrarRespuesta){
-        Optional<Usuario> usuarioOpt = usuarioRepository.findById(datosRegistrarRespuesta.autorId());
+    public Respuesta crearRespuesta(DatosRegistrarRespuesta datosRegistrarRespuesta, UUID usuarioId) {
+        Optional<Usuario> usuarioOpt = usuarioRepository.findById(usuarioId);
         if(usuarioOpt.isPresent()){
             Usuario usuario = usuarioOpt.get();
             Optional<Topico> topicoOpt = topicoRepository.findById(datosRegistrarRespuesta.topicoId());
@@ -41,7 +46,11 @@ public class RespuestaService {
 
     public DatosListadoRespuesta obtenerRespuesta(String id){
         Respuesta respuesta = respuestaRepository.findById(UUID.fromString(id)).orElseThrow(() -> new RuntimeException("Respuesta no encontrada"));
-        return new DatosListadoRespuesta(respuesta, respuesta.getTopico(), respuesta.getAutor());
+        return new DatosListadoRespuesta(respuesta, respuesta.getAutor());
+    }
+
+    public Page<DatosListadoRespuesta> obtenerRespuestaPorTopico(Pageable paginacion, UUID id) {
+        return respuestaRepository.findAllByTopicoId(id, paginacion).map(respuesta -> new DatosListadoRespuesta(respuesta, respuesta.getAutor()));
     }
 
     @Transactional

@@ -7,7 +7,6 @@ public record DatosRegistrarRespuesta(
         String mensaje,
         UUID topicoId,
         LocalDateTime fechaCreacion,
-        UUID autorId,
         Boolean solucion
 ) {
 }

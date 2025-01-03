@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record DatosListadoTopico(
+        UUID id,
         String titulo,
         String mensaje,
         LocalDateTime fechaCreacion,
@@ -15,6 +16,6 @@ public record DatosListadoTopico(
         String cursoCategoria
 ) {
     public DatosListadoTopico(Topico topico, Curso curso) {
-        this(topico.getTitulo(), topico.getMensaje(), topico.getFechaCreacion(), topico.getAutor(), topico.getCursoId(), curso.getNombre(), curso.getCategoria());
+        this(topico.getId(),topico.getTitulo(), topico.getMensaje(), topico.getFechaCreacion(), topico.getAutor(), topico.getCursoId(), curso.getNombre(), curso.getCategoria());
     }
 }

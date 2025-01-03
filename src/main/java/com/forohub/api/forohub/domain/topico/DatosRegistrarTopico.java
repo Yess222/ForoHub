@@ -10,8 +10,7 @@ public record DatosRegistrarTopico(
         String mensaje,
         LocalDateTime fechaCreacion,
         String autor,
-        UUID cursoId,
-        UUID usuarioId
+        UUID cursoId
 ) {
 
 }

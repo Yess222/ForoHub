@@ -2,6 +2,8 @@ package com.forohub.api.forohub.controller;
 
 import com.forohub.api.forohub.domain.perfil.DatosRespuestaPerfil;
 import com.forohub.api.forohub.domain.topico.*;
+import com.forohub.api.forohub.domain.usuario.Usuario;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +24,15 @@ public class TopicoController {
     private TopicoService topicoService;
 
     @GetMapping
-    public ResponseEntity<Page<DatosListadoTopico>> listadoTopicos(@PageableDefault(size = 2) Pageable paginacion){
+    public ResponseEntity<Page<DatosListadoTopico>> listadoTopicos(@PageableDefault(size = 5) Pageable paginacion){
         Page<DatosListadoTopico> page = topicoService.listarTopicos(paginacion);
         return ResponseEntity.ok(page);
     }
 
     @PostMapping
-    public ResponseEntity<DatosRespuestaTopico> registrarPerfil(@RequestBody @Valid DatosRegistrarTopico datosRegistrarTopico) {
-        Topico topico = topicoService.crearTopico(datosRegistrarTopico);
+    public ResponseEntity<DatosRespuestaTopico> registrarTopicos(@RequestBody @Valid DatosRegistrarTopico datosRegistrarTopico, HttpServletRequest request) {
+        Usuario usuario = (Usuario) request.getAttribute("usuario");
+        Topico topico = topicoService.crearTopico(datosRegistrarTopico, usuario.getId());
         DatosRespuestaTopico datosRespuestaTopico = new DatosRespuestaTopico(topico.getId(),topico.getTitulo(),
                 topico.getMensaje(),topico.getFechaCreacion(),topico.getAutor(),topico.getCursoId(),topico.getUsuarioId());
         return ResponseEntity.ok(datosRespuestaTopico);
@@ -39,6 +42,13 @@ public class TopicoController {
     public ResponseEntity<DatosListadoTopico> obtenerTopico(@PathVariable String id){
         DatosListadoTopico datosRespuestaTopico = topicoService.obtenerTopico(id);
         return ResponseEntity.ok(datosRespuestaTopico);
+    }
+
+    @GetMapping("/usuario")
+    public ResponseEntity<Page<DatosListadoTopico>> obtenerTopicoPorUser(@PageableDefault(size=5) Pageable paginacion, HttpServletRequest request){
+        Usuario usuario = (Usuario) request.getAttribute("usuario");
+        Page<DatosListadoTopico> page = topicoService.listarTopicosPorUsuario(paginacion,usuario.getId());
+        return ResponseEntity.ok(page);
     }
 
     @PutMapping
