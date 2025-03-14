@@ -47,4 +47,4 @@ https://documenter.getpostman.com/view/33125614/2sAYJ99d7g
 
 ## Desarrollado por
 * Nombre: Jesus Victor Zavaleta Serva
-* LinkedIn: [https://www.linkedin.com/in/juancamilogaravito/](https://www.linkedin.com/in/jesus-zavaleta-serva-6025b4289/)
+* LinkedIn: https://www.linkedin.com/in/jesus-zavaleta-serva-6025b4289/
